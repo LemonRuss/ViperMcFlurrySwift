@@ -44,6 +44,7 @@ extension UIViewController: ViperModuleTransitionHandlerProtocol {
   public func presentViewController(vc: ViperModuleFactory) -> ViperOpenModulePromise {
     let promise = ViperOpenModulePromise()
     let vc = vc.instantiateModuleTransitionHandler() as! UIViewController
+    vc.modalPresentationStyle = .Popover
     guard let input = vc as? ViperModuleInput else {
       fatalError("Destination ViewController doesnot conform to ViperInputModule protocol")
     }
