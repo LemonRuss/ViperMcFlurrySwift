@@ -136,6 +136,26 @@ extension UISplitViewController: ViperSplitModuleTransitionHandlerProtocol {
     }
     return promise
   }
+  
+  public func pushMasterViewController(vc: ViperModuleFactory, pop: Bool = false) -> ViperOpenModulePromise {
+    let promise = ViperOpenModulePromise()
+    if let masterVC = (self.viewControllers.first as? UINavigationController)?.viewControllers.last {
+      let vc = vc.instantiateModuleTransitionHandler() as! UIViewController
+      if let input = vc as? ViperModuleInput  {
+        promise.moduleInput = input
+      }
+      dispatch_async(dispatch_get_main_queue()) {
+        if pop == false {
+          masterVC.showViewController(vc, sender: nil)
+        } else {
+          masterVC.navigationController?.popViewControllerAnimated(true)
+        }
+      }
+      return promise
+    }
+    
+    fatalError("Cannot finde needed view controller")
+  }
 }
 
 class Box {
@@ -144,3 +164,4 @@ class Box {
     self.value = value
   }
 }
+
