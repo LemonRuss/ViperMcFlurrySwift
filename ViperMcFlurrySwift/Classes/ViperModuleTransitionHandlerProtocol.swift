@@ -45,6 +45,7 @@ public extension ViperModuleTransitionHandlerProtocol {
 
 public protocol ViperSplitModuleTransitionHandlerProtocol: ViperModuleTransitionHandlerProtocol {
   func showDetailViewController(vc: ViperModuleFactory) -> ViperOpenModulePromise
+  func pushMasterViewController(vc: ViperModuleFactory, pop: Bool) -> ViperOpenModulePromise
 }
 
 
