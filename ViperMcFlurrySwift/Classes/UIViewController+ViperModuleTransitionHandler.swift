@@ -132,7 +132,14 @@ extension UISplitViewController: ViperSplitModuleTransitionHandlerProtocol {
   public func showDetailViewController(vc: ViperModuleFactory) -> ViperOpenModulePromise {
     let promise = ViperOpenModulePromise()
     dispatch_async(dispatch_get_main_queue()) {
-      self.showDetailViewController(vc.instantiateModuleTransitionHandler() as! UIViewController, sender: nil)
+      let vc = vc.instantiateModuleTransitionHandler() as! UIViewController
+      let rightVc = self.viewControllers.last!
+      vc.view.frame = CGRect(x: 0, y: 20, width: rightVc.view.frame.width - 10, height: rightVc.view.frame.height - 30)
+      vc.view.layer.cornerRadius = 6
+      vc.view.clipsToBounds = true
+      rightVc.addChildViewController(vc)
+      rightVc.view.addSubview(vc.view)
+      vc.didMoveToParentViewController(rightVc)
     }
     return promise
   }
